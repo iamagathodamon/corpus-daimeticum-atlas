@@ -14,6 +14,10 @@ This repository is a public index of the live archive. The application source is
 | Browse by language | https://corpus.agathodamon.com/languages |
 | Browse by translator | https://corpus.agathodamon.com/translators |
 | About the method | https://corpus.agathodamon.com/about |
+| Reading guide | https://corpus.agathodamon.com/guide |
+| Glossary | https://corpus.agathodamon.com/glossary |
+| FAQ | https://corpus.agathodamon.com/faq |
+| Search the corpus | https://corpus.agathodamon.com/search |
 | Support / funding ladder | https://corpus.agathodamon.com/support |
 | Atom feed | https://corpus.agathodamon.com/feed.xml |
 | Sitemap | https://corpus.agathodamon.com/sitemap.xml |
