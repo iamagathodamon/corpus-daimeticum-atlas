@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: If you cite this corpus, please use the metadata below and prefer a per-work citation from the live provenance record when referring to a specific text.
+type: dataset
+title: Corpus Daimeticum
+abstract: A provenance-first reading corpus of sacred and philosophical texts. Each published full text is a named historical edition or translation with a source URL, access date, SHA-256 checksum, and a per-work rights review.
+authors:
+  - family-names: Rolnick
+    given-names: Damon
+    alias: Agatho Damon
+    website: https://agathodamon.com
+url: https://corpus.agathodamon.com
+repository-code: https://github.com/iamagathodamon/corpus-daimeticum-atlas
+identifiers:
+  - type: url
+    value: https://corpus.agathodamon.com
+    description: Live reading corpus
+  - type: url
+    value: https://corpus.agathodamon.com/dataset
+    description: Per-work rights and checksum inventory
+keywords:
+  - sacred texts
+  - digital humanities
+  - public domain
+  - provenance
+  - digital library
+  - comparative religion
+license: "LicenseRef-Per-Work"
