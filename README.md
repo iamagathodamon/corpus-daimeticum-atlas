@@ -29,6 +29,10 @@ The current public collection is a rights-clean sample spanning twelve tradition
 
 Full text is published only for sources in the **redistributable** rights lane. Research-only and metadata-only records stay off this public surface.
 
+## How this archive is funded
+
+The live texts are free. Growing from the current sample toward a 2 TB working corpus and a 16 TB archival collection requires off-machine storage (about $12/month at 2 TB and about $96/month at 16 TB, Backblaze B2 list-price planning estimates). The [support page](https://corpus.agathodamon.com/support) states the traffic and revenue gates for each funding rung. There is no live donation processor yet.
+
 ## How to cite
 
 See [`CITATION.cff`](./CITATION.cff), or cite a specific work from its live provenance record (each work page includes a “How to cite this page” line). Example for the archive as a whole:
