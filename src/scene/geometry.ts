@@ -1,6 +1,36 @@
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 
+export function applyWorldUvs(
+  geometry: THREE.BufferGeometry,
+  scale: number,
+): THREE.BufferGeometry {
+  const pos = geometry.getAttribute("position");
+  const nrm = geometry.getAttribute("normal");
+  const uv = new Float32Array(pos.count * 2);
+  for (let i = 0; i < pos.count; i += 1) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    const z = pos.getZ(i);
+    const nx = Math.abs(nrm.getX(i));
+    const ny = Math.abs(nrm.getY(i));
+    const nz = Math.abs(nrm.getZ(i));
+    let u = x;
+    let v = y;
+    if (ny >= nx && ny >= nz) {
+      u = x;
+      v = z;
+    } else if (nx >= nz) {
+      u = z;
+      v = y;
+    }
+    uv[i * 2] = u / scale;
+    uv[i * 2 + 1] = v / scale;
+  }
+  geometry.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+  return geometry;
+}
+
 export function transformedBox(
   w: number,
   h: number,

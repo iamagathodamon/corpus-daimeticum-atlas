@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from "react";
-import { MeshReflectorMaterial } from "@react-three/drei";
 import type { BufferGeometry, Material } from "three";
 import type { Quality } from "../lib/quality";
 import {
@@ -12,6 +11,7 @@ import {
   STAIR_WIDTH,
 } from "./layout";
 import {
+  applyWorldUvs,
   ceilingBeams,
   diagrid,
   inclinedRail,
@@ -53,47 +53,16 @@ function MergedMesh({
   );
 }
 
-function Floor({
-  quality,
-  materials,
-}: {
-  quality: Quality;
-  materials: TempleMaterials;
-}) {
+function Floor({ materials }: { materials: TempleMaterials }) {
   return (
-    <group>
-      <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, 0, 40]}
-        receiveShadow
-        material={materials.floor}
-      >
-        <planeGeometry args={[56, 116]} />
-      </mesh>
-      {quality.reflector ? (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 40]}>
-          <planeGeometry args={[56, 116]} />
-          <MeshReflectorMaterial
-            blur={[200, 60]}
-            resolution={quality.isMobile ? 384 : 768}
-            mixBlur={0.7}
-            mixStrength={0.55}
-            mirror={0.22}
-            roughness={0.2}
-            metalness={0.2}
-            color="#8a8074"
-            map={materials.floorMap}
-            transparent
-            opacity={0.42}
-            depthWrite={false}
-            depthScale={0.55}
-            minDepthThreshold={0.65}
-            maxDepthThreshold={1.35}
-            reflectorOffset={0.03}
-          />
-        </mesh>
-      ) : null}
-    </group>
+    <mesh
+      rotation={[-Math.PI / 2, 0, 0]}
+      position={[0, 0, 40]}
+      receiveShadow
+      material={materials.floor}
+    >
+      <planeGeometry args={[56, 116]} />
+    </mesh>
   );
 }
 
@@ -121,12 +90,12 @@ export function Architecture({ quality }: { quality: Quality }) {
       transformedBox(20.8, 1.1, 24, 0, 33.5, 81.5),
       transformedBox(56, 0.42, 4, 0, 0.21, 46),
     ];
-    return mergeBoxes(parts);
+    return applyWorldUvs(mergeBoxes(parts), 1.85);
   }, []);
 
   const plates = useMemo(
     () =>
-      mergeBoxes([
+      applyWorldUvs(mergeBoxes([
         transformedBox(28, 2.9, 20, -11.5, 19.4, 24, 0.16, 0.38, -0.2),
         transformedBox(22, 2.5, 16, -8.2, 13.8, 7.5, 0.26, 0.14, -0.07),
         transformedBox(26, 2.3, 18, 13.8, 21.6, 34, -0.1, -0.34, 0.15),
@@ -137,49 +106,58 @@ export function Architecture({ quality }: { quality: Quality }) {
         transformedBox(20, 1.7, 10, 0, 28.6, 22, 0.2, 0, 0),
         transformedBox(30, 3.2, 16, -7.2, 15.4, 26, 0.3, 0.42, -0.16),
         transformedBox(18, 2.4, 12, 7.4, 17.8, 38, -0.18, -0.28, 0.12),
-      ]),
+      ]), 3.05),
     [],
   );
 
   const lattice = useMemo(
     () =>
-      diagrid({
-        width: 20,
-        depth: 42,
-        y: 33.6,
-        z: 48,
-        cells: quality.diagrid,
-        beam: 0.42,
-      }),
+      applyWorldUvs(
+        diagrid({
+          width: 20,
+          depth: 42,
+          y: 33.6,
+          z: 48,
+          cells: quality.diagrid,
+          beam: 0.42,
+        }),
+        0.7,
+      ),
     [quality.diagrid],
   );
 
   const nosings = useMemo(
     () =>
-      stairNosings({
-        steps: STAIR_STEPS,
-        rise: STAIR_RISE,
-        run: STAIR_RUN,
-        width: STAIR_WIDTH,
-        x: 0,
-        z0: STAIR_START_Z,
-      }),
+      applyWorldUvs(
+        stairNosings({
+          steps: STAIR_STEPS,
+          rise: STAIR_RISE,
+          run: STAIR_RUN,
+          width: STAIR_WIDTH,
+          x: 0,
+          z0: STAIR_START_Z,
+        }),
+        1.2,
+      ),
     [],
   );
 
   const soffits = useMemo(
     () =>
-      mergeBoxes([
-        transformedBox(4.8, 0.22, 74, -23.4, 7.92, 50),
-        transformedBox(4.8, 0.22, 74, 23.4, 7.92, 50),
-        transformedBox(4.8, 0.22, 34, -23.4, 16.12, 70),
-        transformedBox(4.8, 0.22, 34, 23.4, 16.12, 70),
-      ]),
+      applyWorldUvs(
+        mergeBoxes([
+          transformedBox(4.8, 0.22, 74, -23.4, 7.92, 50),
+          transformedBox(4.8, 0.22, 74, 23.4, 7.92, 50),
+          transformedBox(4.8, 0.22, 34, -23.4, 16.12, 70),
+          transformedBox(4.8, 0.22, 34, 23.4, 16.12, 70),
+        ]),
+        1.6,
+      ),
     [],
   );
 
   const farWall = useMemo(
-    () => transformedBox(52, 30, 0.45, 0, 16, 94.55),
+    () => applyWorldUvs(transformedBox(52, 30, 0.45, 0, 16, 94.55), 1.85),
     [],
   );
 
@@ -205,30 +183,36 @@ export function Architecture({ quality }: { quality: Quality }) {
 
   const stair = useMemo(
     () =>
-      stairFlight({
-        steps: STAIR_STEPS,
-        rise: STAIR_RISE,
-        run: STAIR_RUN,
-        width: STAIR_WIDTH,
-        x: 0,
-        z0: STAIR_START_Z,
-      }),
+      applyWorldUvs(
+        stairFlight({
+          steps: STAIR_STEPS,
+          rise: STAIR_RISE,
+          run: STAIR_RUN,
+          width: STAIR_WIDTH,
+          x: 0,
+          z0: STAIR_START_Z,
+        }),
+        1.85,
+      ),
     [],
   );
 
   const plaza = useMemo(
     () =>
-      mergeBoxes([
-        transformedBox(20.2, 0.36, 33, 0, STAIR_HEIGHT + 0.18, 72.2),
-        transformedBox(0.42, 1.15, 33, -10.05, STAIR_HEIGHT + 0.7, 72.2),
-        transformedBox(0.42, 1.15, 33, 10.05, STAIR_HEIGHT + 0.7, 72.2),
-      ]),
+      applyWorldUvs(
+        mergeBoxes([
+          transformedBox(20.2, 0.36, 33, 0, STAIR_HEIGHT + 0.18, 72.2),
+          transformedBox(0.42, 1.15, 33, -10.05, STAIR_HEIGHT + 0.7, 72.2),
+          transformedBox(0.42, 1.15, 33, 10.05, STAIR_HEIGHT + 0.7, 72.2),
+        ]),
+        1.85,
+      ),
     [],
   );
 
   const galleries = useMemo(
     () =>
-      mergeBoxes([
+      applyWorldUvs(mergeBoxes([
         transformedBox(4.6, 0.32, 74, -23.4, 8.16, 50),
         transformedBox(4.6, 0.32, 74, 23.4, 8.16, 50),
         transformedBox(4.6, 0.32, 34, -23.4, 16.36, 70),
@@ -269,13 +253,13 @@ export function Architecture({ quality }: { quality: Quality }) {
           z0: 54,
           y0: 8,
         }),
-      ]),
+      ]), 1.85),
     [],
   );
 
   const rails = useMemo(
     () =>
-      mergeBoxes([
+      applyWorldUvs(mergeBoxes([
         inclinedRail({
           x: -STAIR_WIDTH / 2 + 0.12,
           z0: STAIR_START_Z,
@@ -340,13 +324,13 @@ export function Architecture({ quality }: { quality: Quality }) {
           axis: "x",
           posts: 5,
         }),
-      ]),
+      ]), 0.55),
     [],
   );
 
   const piers = useMemo(
     () =>
-      mergeBoxes([
+      applyWorldUvs(mergeBoxes([
         transformedBox(2.2, 22, 2.2, -14, 11, 34),
         transformedBox(2.2, 22, 2.2, 14, 11, 34),
         transformedBox(2.2, 22, 2.2, -14, 11, 66),
@@ -355,7 +339,7 @@ export function Architecture({ quality }: { quality: Quality }) {
         transformedBox(3.1, 0.45, 3.1, 14, 0.22, 34),
         transformedBox(3.1, 0.45, 3.1, -14, 0.22, 66),
         transformedBox(3.1, 0.45, 3.1, 14, 0.22, 66),
-      ]),
+      ]), 1.85),
     [],
   );
 
@@ -366,15 +350,18 @@ export function Architecture({ quality }: { quality: Quality }) {
       parts.push(transformedBox(0.5, 5.2, 3.1, -25.6, 3.4, z));
       parts.push(transformedBox(0.5, 5.2, 3.1, 25.6, 3.4, z));
     }
-    return mergeBoxes(parts);
+    return applyWorldUvs(mergeBoxes(parts), 1.6);
   }, []);
 
   const stele = useMemo(
     () =>
-      mergeBoxes([
-        transformedBox(2.15, 14.2, 2.15, 15.6, 7.3, 71.2),
-        transformedBox(3.2, 0.4, 3.2, 15.6, 0.2, 71.2),
-      ]),
+      applyWorldUvs(
+        mergeBoxes([
+          transformedBox(2.15, 14.2, 2.15, 15.6, 7.3, 71.2),
+          transformedBox(3.2, 0.4, 3.2, 15.6, 0.2, 71.2),
+        ]),
+        1.6,
+      ),
     [],
   );
 
@@ -383,9 +370,9 @@ export function Architecture({ quality }: { quality: Quality }) {
     [],
   );
 
-  const reveals = useMemo(() => wallReveals(), []);
-  const flutes = useMemo(() => pierFlutes(), []);
-  const beams = useMemo(() => ceilingBeams(), []);
+  const reveals = useMemo(() => applyWorldUvs(wallReveals(), 1.85), []);
+  const flutes = useMemo(() => applyWorldUvs(pierFlutes(), 1.2), []);
+  const beams = useMemo(() => applyWorldUvs(ceilingBeams(), 3.05), []);
 
   const slits = useMemo(() => {
     const parts = [];
@@ -433,7 +420,7 @@ export function Architecture({ quality }: { quality: Quality }) {
 
   return (
     <group>
-      <Floor quality={quality} materials={materials} />
+      <Floor materials={materials} />
       <MergedMesh geometry={shell} material={materials.stone} castShadow receiveShadow />
       <MergedMesh geometry={plates} material={materials.plate} castShadow receiveShadow />
       <MergedMesh geometry={beams} material={materials.stoneDark} castShadow receiveShadow />

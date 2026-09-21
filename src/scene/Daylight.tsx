@@ -117,7 +117,7 @@ export function Daylight({ quality }: { quality: Quality }) {
         position={[0, 33.4, 48]}
         width={18}
         height={38}
-        intensity={7.5}
+        intensity={5.4}
         color="#fff4de"
         rotation={[-Math.PI / 2, 0, 0]}
       />
@@ -125,7 +125,7 @@ export function Daylight({ quality }: { quality: Quality }) {
         position={[0, 16, 93.8]}
         width={22}
         height={16}
-        intensity={7.2}
+        intensity={4.6}
         color="#ffd9a4"
         rotation={[0, Math.PI, 0]}
       />
