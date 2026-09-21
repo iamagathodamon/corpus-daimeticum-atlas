@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { useLibrary } from "../state/library";
-import { createOrbitSlots } from "./orbits";
+import { createVolumeLoci } from "./loci";
 
 export function Volumes() {
   const { books, select } = useLibrary();
-  const slots = useMemo(() => createOrbitSlots(), []);
+  const loci = useMemo(() => createVolumeLoci(), []);
 
   if (books.length === 0) {
     return null;
@@ -13,21 +13,21 @@ export function Volumes() {
   return (
     <group>
       {books.map((book, index) => {
-        const slot = slots[index];
-        if (!slot) {
+        const locus = loci[index];
+        if (!locus) {
           return null;
         }
         return (
           <mesh
             key={book.slug}
-            position={slot.position}
+            position={locus.position}
             onClick={(event) => {
               event.stopPropagation();
               select(book);
             }}
           >
-            <sphereGeometry args={[0.055, 16, 16]} />
-            <meshBasicMaterial color="#f4d27a" />
+            <boxGeometry args={[0.55, 0.08, 0.55]} />
+            <meshPhysicalMaterial color="#2a3036" roughness={0.4} metalness={0.5} />
           </mesh>
         );
       })}

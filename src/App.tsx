@@ -9,10 +9,14 @@ import { Overlay } from "./ui/Overlay";
 export default function App() {
   const [webgl, setWebgl] = useState<boolean | null>(null);
   const quality = useMemo(() => detectQuality(), []);
+  const forceFallback = useMemo(
+    () => new URLSearchParams(window.location.search).has("fallback"),
+    [],
+  );
 
   useEffect(() => {
-    setWebgl(isWebGLAvailable());
-  }, []);
+    setWebgl(forceFallback ? false : isWebGLAvailable());
+  }, [forceFallback]);
 
   if (webgl === null) {
     return <div className="boot" aria-hidden="true" />;
