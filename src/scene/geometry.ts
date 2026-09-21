@@ -234,3 +234,50 @@ export function diagrid(options: {
 
   return mergeBoxes(parts);
 }
+
+export function wallReveals(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [];
+  for (let z = 10; z <= 88; z += 3.2) {
+    parts.push(transformedBox(0.07, 30, 0.06, -25.86, 15, z));
+    parts.push(transformedBox(0.07, 30, 0.06, 25.86, 15, z));
+  }
+  for (const y of [4.1, 8.12, 12.3, 16.32, 21.1, 26.6]) {
+    parts.push(transformedBox(0.07, 0.055, 80, -25.86, y, 50));
+    parts.push(transformedBox(0.07, 0.055, 80, 25.86, y, 50));
+  }
+  return mergeBoxes(parts);
+}
+
+export function pierFlutes(): THREE.BufferGeometry {
+  const piers: Array<[number, number]> = [
+    [-14, 34],
+    [14, 34],
+    [-14, 66],
+    [14, 66],
+  ];
+  const parts: THREE.BufferGeometry[] = [];
+  for (const [x, z] of piers) {
+    for (const dx of [-0.74, 0, 0.74]) {
+      parts.push(transformedBox(0.09, 20.6, 0.09, x + dx, 10.5, z + 1.12));
+      parts.push(transformedBox(0.09, 20.6, 0.09, x + dx, 10.5, z - 1.12));
+    }
+  }
+  return mergeBoxes(parts);
+}
+
+export function ceilingBeams(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [];
+  for (let z = 8; z <= 90; z += 5.5) {
+    if (z > 28 && z < 68) {
+      parts.push(transformedBox(16.2, 0.42, 0.5, -18.2, 32.55, z));
+      parts.push(transformedBox(16.2, 0.42, 0.5, 18.2, 32.55, z));
+    } else {
+      parts.push(transformedBox(52, 0.42, 0.5, 0, 32.55, z));
+    }
+  }
+  for (let x = -22; x <= 22; x += 5.5) {
+    parts.push(transformedBox(0.5, 0.42, 24, x, 32.55, 13.5));
+    parts.push(transformedBox(0.5, 0.42, 22, x, 32.55, 82));
+  }
+  return mergeBoxes(parts);
+}

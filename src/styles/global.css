@@ -1,11 +1,11 @@
 :root {
-  --void: #d4dbe4;
-  --ink: #16191d;
-  --type: #1a1d21;
-  --mute: rgba(26, 29, 33, 0.56);
-  --faint: rgba(26, 29, 33, 0.28);
-  --line: rgba(26, 29, 33, 0.12);
-  --panel: rgba(236, 240, 244, 0.48);
+  --void: #c9c0b2;
+  --ink: #1c1814;
+  --type: #221c16;
+  --mute: rgba(34, 28, 22, 0.56);
+  --faint: rgba(34, 28, 22, 0.28);
+  --line: rgba(34, 28, 22, 0.12);
+  --panel: rgba(244, 236, 224, 0.5);
 }
 
 * {

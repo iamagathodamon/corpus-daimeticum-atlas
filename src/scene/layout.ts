@@ -38,8 +38,8 @@ export const VIEWS: Record<ViewName, CameraView> = {
     target: [0.4, 3.2, 18],
   },
   atrium: {
-    position: [-8.6, EYE, 10.4],
-    target: [1.8, 13.6, 49],
+    position: [-8.2, EYE, 11.6],
+    target: [2.6, 10.4, 50],
   },
   traverse: {
     position: [-5.6, 4.12, 33.8],

@@ -6,7 +6,7 @@ import type { Quality } from "../lib/quality";
 function Sun() {
   const target = useMemo(() => {
     const object = new THREE.Object3D();
-    object.position.set(0, 0, 46);
+    object.position.set(0, 0, 48);
     return object;
   }, []);
 
@@ -14,19 +14,19 @@ function Sun() {
     <>
       <primitive object={target} />
       <directionalLight
-        position={[10, 58, 22]}
-        intensity={2.15}
-        color="#fff3df"
+        position={[14, 52, 18]}
+        intensity={2.8}
+        color="#ffe7c2"
         castShadow
         shadow-mapSize={[2048, 2048]}
-        shadow-bias={-0.00025}
-        shadow-normalBias={0.04}
+        shadow-bias={-0.0002}
+        shadow-normalBias={0.035}
         shadow-camera-near={8}
         shadow-camera-far={140}
-        shadow-camera-left={-42}
-        shadow-camera-right={42}
-        shadow-camera-top={56}
-        shadow-camera-bottom={-40}
+        shadow-camera-left={-40}
+        shadow-camera-right={40}
+        shadow-camera-top={54}
+        shadow-camera-bottom={-38}
         target={target}
       />
     </>
@@ -38,10 +38,10 @@ function Dust({ count }: { count: number }) {
   const seeds = useMemo(() => {
     const data = new Float32Array(count * 5);
     for (let i = 0; i < count; i += 1) {
-      data[i * 5] = (Math.random() - 0.5) * 16;
-      data[i * 5 + 1] = 2 + Math.random() * 30;
-      data[i * 5 + 2] = 28 + Math.random() * 44;
-      data[i * 5 + 3] = 0.4 + Math.random() * 0.9;
+      data[i * 5] = (Math.random() - 0.5) * 14;
+      data[i * 5 + 1] = 2 + Math.random() * 28;
+      data[i * 5 + 2] = 30 + Math.random() * 40;
+      data[i * 5 + 3] = 0.35 + Math.random() * 0.7;
       data[i * 5 + 4] = Math.random() * Math.PI * 2;
     }
     return data;
@@ -61,14 +61,13 @@ function Dust({ count }: { count: number }) {
       const z = seeds[i * 5 + 2];
       const speed = seeds[i * 5 + 3];
       const phase = seeds[i * 5 + 4];
-      const y = 2 + ((y0 + t * speed * 0.18) % 30);
+      const y = 2 + ((y0 + t * speed * 0.14) % 28);
       dummy.position.set(
-        x + Math.sin(t * 0.12 + phase) * 0.25,
+        x + Math.sin(t * 0.1 + phase) * 0.2,
         y,
-        z + Math.cos(t * 0.1 + phase) * 0.2,
+        z + Math.cos(t * 0.08 + phase) * 0.16,
       );
-      const s = 0.018 + (i % 5) * 0.004;
-      dummy.scale.setScalar(s);
+      dummy.scale.setScalar(0.016 + (i % 5) * 0.003);
       dummy.updateMatrix();
       instance.setMatrixAt(i, dummy.matrix);
     }
@@ -79,9 +78,9 @@ function Dust({ count }: { count: number }) {
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <octahedronGeometry args={[1, 0]} />
       <meshBasicMaterial
-        color="#efe6d2"
+        color="#f3e6c8"
         transparent
-        opacity={0.16}
+        opacity={0.14}
         depthWrite={false}
       />
     </instancedMesh>
@@ -91,55 +90,52 @@ function Dust({ count }: { count: number }) {
 export function Daylight({ quality }: { quality: Quality }) {
   return (
     <>
-      <color attach="background" args={["#b7c2ce"]} />
-      <fog attach="fog" args={["#b7c2ce", 78, 190]} />
-      <hemisphereLight args={["#c5d2e0", "#9a9488", 1.15]} />
-      <ambientLight intensity={0.28} color="#d5dbe3" />
-      {quality.shadows ? <Sun /> : (
+      <color attach="background" args={["#c9c0b2"]} />
+      <fog attach="fog" args={["#c9c0b2", 70, 175]} />
+      <hemisphereLight args={["#e8d9c0", "#7a6e60", 0.72]} />
+      <ambientLight intensity={0.16} color="#e6d8c4" />
+      {quality.shadows ? (
+        <Sun />
+      ) : (
         <directionalLight
-          position={[10, 58, 22]}
-          intensity={2.1}
-          color="#fff3df"
+          position={[14, 52, 18]}
+          intensity={2.4}
+          color="#ffe7c2"
         />
       )}
       <directionalLight
-        position={[0, 18, 96]}
-        intensity={1.15}
-        color="#fff6e6"
+        position={[0, 20, 98]}
+        intensity={0.85}
+        color="#ffe9c4"
       />
       <directionalLight
-        position={[-18, 8, 20]}
-        intensity={0.42}
-        color="#d7e2ee"
+        position={[-16, 12, 24]}
+        intensity={0.28}
+        color="#d7cfc4"
       />
       <rectAreaLight
         position={[0, 33.4, 48]}
         width={18}
         height={38}
-        intensity={5.2}
-        color="#f4f8fc"
+        intensity={7.5}
+        color="#fff4de"
         rotation={[-Math.PI / 2, 0, 0]}
       />
       <rectAreaLight
         position={[0, 16, 93.8]}
         width={22}
         height={16}
-        intensity={6.4}
-        color="#ffe9c4"
+        intensity={7.2}
+        color="#ffd9a4"
         rotation={[0, Math.PI, 0]}
       />
       <rectAreaLight
         position={[0, 2.2, -15.2]}
         width={5}
         height={3.4}
-        intensity={2.2}
-        color="#cdd8e6"
+        intensity={1.8}
+        color="#d8cfc2"
         rotation={[0, 0, 0]}
-      />
-      <directionalLight
-        position={[2, 5, 36]}
-        intensity={0.32}
-        color="#d7dee6"
       />
       <Dust count={quality.dust} />
     </>

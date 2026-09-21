@@ -12,16 +12,19 @@ import {
   STAIR_WIDTH,
 } from "./layout";
 import {
+  ceilingBeams,
   diagrid,
   inclinedRail,
   mergeBoxes,
+  pierFlutes,
   railRun,
   stairFlight,
   stairFlightX,
   stairNosings,
   transformedBox,
+  wallReveals,
 } from "./geometry";
-import { useTempleMaterials } from "./materials";
+import { useTempleMaterials, type TempleMaterials } from "./materials";
 
 function MergedMesh({
   geometry,
@@ -50,43 +53,47 @@ function MergedMesh({
   );
 }
 
-function Floor({ quality }: { quality: Quality }) {
-  if (quality.reflector) {
-    return (
+function Floor({
+  quality,
+  materials,
+}: {
+  quality: Quality;
+  materials: TempleMaterials;
+}) {
+  return (
+    <group>
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}
         position={[0, 0, 40]}
         receiveShadow
+        material={materials.floor}
       >
         <planeGeometry args={[56, 116]} />
-        <MeshReflectorMaterial
-          blur={[280, 80]}
-          resolution={quality.isMobile ? 512 : 1024}
-          mixBlur={0.85}
-          mixStrength={0.38}
-          mirror={0.18}
-          roughness={0.28}
-          metalness={0.12}
-          color="#5a616a"
-          depthScale={0.6}
-          minDepthThreshold={0.7}
-          maxDepthThreshold={1.4}
-          reflectorOffset={0.02}
-        />
       </mesh>
-    );
-  }
-
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 40]} receiveShadow>
-      <planeGeometry args={[56, 116]} />
-      <meshPhysicalMaterial
-        color="#9098a1"
-        roughness={0.2}
-        metalness={0.18}
-        envMapIntensity={0.55}
-      />
-    </mesh>
+      {quality.reflector ? (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 40]}>
+          <planeGeometry args={[56, 116]} />
+          <MeshReflectorMaterial
+            blur={[200, 60]}
+            resolution={quality.isMobile ? 384 : 768}
+            mixBlur={0.7}
+            mixStrength={0.55}
+            mirror={0.22}
+            roughness={0.2}
+            metalness={0.2}
+            color="#8a8074"
+            map={materials.floorMap}
+            transparent
+            opacity={0.42}
+            depthWrite={false}
+            depthScale={0.55}
+            minDepthThreshold={0.65}
+            maxDepthThreshold={1.35}
+            reflectorOffset={0.03}
+          />
+        </mesh>
+      ) : null}
+    </group>
   );
 }
 
@@ -376,6 +383,10 @@ export function Architecture({ quality }: { quality: Quality }) {
     [],
   );
 
+  const reveals = useMemo(() => wallReveals(), []);
+  const flutes = useMemo(() => pierFlutes(), []);
+  const beams = useMemo(() => ceilingBeams(), []);
+
   const slits = useMemo(() => {
     const parts = [];
     for (let i = -3; i <= 3; i += 1) {
@@ -422,10 +433,13 @@ export function Architecture({ quality }: { quality: Quality }) {
 
   return (
     <group>
-      <Floor quality={quality} />
+      <Floor quality={quality} materials={materials} />
       <MergedMesh geometry={shell} material={materials.stone} castShadow receiveShadow />
       <MergedMesh geometry={plates} material={materials.plate} castShadow receiveShadow />
+      <MergedMesh geometry={beams} material={materials.stoneDark} castShadow receiveShadow />
       <MergedMesh geometry={lattice} material={materials.metal} castShadow />
+      <MergedMesh geometry={reveals} material={materials.joint} />
+      <MergedMesh geometry={flutes} material={materials.joint} />
       <MergedMesh geometry={wellRim} material={materials.glow} />
       <MergedMesh geometry={stair} material={materials.stone} castShadow receiveShadow />
       <MergedMesh geometry={nosings} material={materials.metal} />
