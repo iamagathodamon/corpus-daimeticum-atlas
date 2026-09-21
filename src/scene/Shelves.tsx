@@ -45,7 +45,7 @@ function Bookcase({
     const x = -width / 2 + CASE_TRIM.upright + bay * bayWidth;
     boards.push({
       position: [x, CASE_TRIM.kick + innerHeight / 2, 0],
-      args: [0.028, innerHeight, depth - 0.02],
+      args: [0.04, innerHeight, depth - 0.02],
     });
   }
 
@@ -74,14 +74,33 @@ function Bookcase({
       {Array.from({ length: bays }, (_, bay) => {
         const x =
           -width / 2 + CASE_TRIM.upright + bay * bayWidth + bayWidth / 2;
+        const lit = bays <= 2 || bay === 1 || bay === bays - 2;
         return (
-          <mesh
-            key={`${spec.id}-plate-${bay}`}
-            position={[x, height - CASE_TRIM.crown * 0.45, depth / 2 + 0.002]}
-            material={materials.brassDim}
-          >
-            <boxGeometry args={[0.16, 0.028, 0.006]} />
-          </mesh>
+          <group key={`${spec.id}-bay-${bay}`}>
+            <mesh
+              position={[x, height - CASE_TRIM.crown * 0.45, depth / 2 + 0.002]}
+              material={materials.brassDim}
+            >
+              <boxGeometry args={[0.16, 0.028, 0.006]} />
+            </mesh>
+            {lit ? (
+              <>
+                <mesh
+                  position={[x, height - 0.08, depth / 2 - 0.04]}
+                  material={materials.brass}
+                >
+                  <cylinderGeometry args={[0.012, 0.012, 0.14, 8]} />
+                </mesh>
+                <pointLight
+                  position={[x, height - 0.18, depth / 2 - 0.02]}
+                  intensity={1.15}
+                  color="#f3d7a8"
+                  distance={2.1}
+                  decay={2}
+                />
+              </>
+            ) : null}
+          </group>
         );
       })}
     </group>

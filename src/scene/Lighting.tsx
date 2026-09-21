@@ -20,15 +20,15 @@ export function Lighting({ quality }: LightingProps) {
 
   return (
     <>
-      <color attach="background" args={["#0a0806"]} />
-      <fog attach="fog" args={["#0c0907", 7.5, 16]} />
-      <hemisphereLight args={["#8a97aa", "#2a1c14", 0.18]} />
-      <ambientLight intensity={0.045} color="#2c241c" />
+      <color attach="background" args={["#1a1410"]} />
+      <fog attach="fog" args={["#1a1410", 14, 28]} />
+      <hemisphereLight args={["#c8c2b4", "#4a382c", 0.55]} />
+      <ambientLight intensity={0.22} color="#c4b49c" />
 
       <directionalLight
-        position={[-0.2, 3.4, -4.8]}
-        intensity={1.85}
-        color="#c5d0e2"
+        position={[-0.4, 3.6, -3.8]}
+        intensity={2.4}
+        color="#e6d4bc"
         castShadow={quality.shadows}
         shadow-mapSize-width={quality.shadowMap}
         shadow-mapSize-height={quality.shadowMap}
@@ -36,28 +36,37 @@ export function Lighting({ quality }: LightingProps) {
         shadow-normalBias={0.02}
         shadow-camera-near={0.5}
         shadow-camera-far={16}
-        shadow-camera-left={-5}
-        shadow-camera-right={5}
-        shadow-camera-top={5}
-        shadow-camera-bottom={-5}
+        shadow-camera-left={-6}
+        shadow-camera-right={6}
+        shadow-camera-top={6}
+        shadow-camera-bottom={-6}
       />
 
       <rectAreaLight
-        position={[0, 2.3, -3.86]}
-        width={2.55}
-        height={2.4}
-        intensity={7.5}
-        color="#b7c4d6"
+        position={[0, 2.35, -3.82]}
+        width={2.7}
+        height={2.5}
+        intensity={7}
+        color="#c8b8a0"
+      />
+
+      <rectAreaLight
+        position={[0, 4.05, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        width={6.5}
+        height={5.5}
+        intensity={4.5}
+        color="#d2c2a8"
       />
 
       <spotLight
         ref={lamp}
         position={[0.08, 2.05, -0.3]}
-        intensity={14}
+        intensity={10}
         color="#ffc57a"
-        angle={0.48}
-        penumbra={0.82}
-        distance={7}
+        angle={0.52}
+        penumbra={0.84}
+        distance={8}
         castShadow={quality.shadows}
         shadow-mapSize-width={quality.shadowMap}
         shadow-mapSize-height={quality.shadowMap}
@@ -65,18 +74,33 @@ export function Lighting({ quality }: LightingProps) {
       />
 
       <pointLight
-        position={[0.08, 1.5, -0.36]}
-        intensity={1.35}
-        color="#ffb35c"
-        distance={4.2}
+        position={[0.08, 1.55, -0.3]}
+        intensity={2.2}
+        color="#ffc07a"
+        distance={5}
         decay={2}
       />
 
       <pointLight
-        position={[-2.4, 2.6, 1.4]}
-        intensity={0.28}
-        color="#6a5848"
-        distance={6}
+        position={[-3.1, 2.15, 0.1]}
+        intensity={3.4}
+        color="#f0d4b0"
+        distance={5.5}
+        decay={2}
+      />
+      <pointLight
+        position={[3.1, 2.15, 0.1]}
+        intensity={2.6}
+        color="#e8d0b4"
+        distance={5.5}
+        decay={2}
+      />
+      <pointLight
+        position={[0, 2.2, 2.9]}
+        intensity={2.2}
+        color="#e4d2ba"
+        distance={5}
+        decay={2}
       />
     </>
   );

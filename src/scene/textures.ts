@@ -107,9 +107,9 @@ function paintWood(
 
 function paintParquet(ctx: CanvasRenderingContext2D, size: number): void {
   const tile = size / 16;
-  const dark = color("#3a2418");
-  const mid = color("#6a4630");
-  const light = color("#8a6142");
+  const dark = color("#5a3824");
+  const mid = color("#8a5c3c");
+  const light = color("#b07a50");
 
   for (let row = 0; row < 16; row += 1) {
     for (let col = 0; col < 16; col += 1) {
@@ -197,8 +197,8 @@ function paintLeather(ctx: CanvasRenderingContext2D, size: number): void {
 }
 
 function paintPlaster(ctx: CanvasRenderingContext2D, size: number): void {
-  const a = color("#6d6456");
-  const b = color("#8a8070");
+  const a = color("#8a8274");
+  const b = color("#b4aa98");
   const image = ctx.createImageData(size, size);
   for (let y = 0; y < size; y += 1) {
     for (let x = 0; x < size; x += 1) {
@@ -216,11 +216,11 @@ function paintPlaster(ctx: CanvasRenderingContext2D, size: number): void {
 
 function paintDusk(ctx: CanvasRenderingContext2D, size: number): void {
   const sky = ctx.createLinearGradient(0, 0, 0, size);
-  sky.addColorStop(0, "#141820");
-  sky.addColorStop(0.42, "#2a3344");
-  sky.addColorStop(0.62, "#6a5348");
-  sky.addColorStop(0.78, "#8a5a3c");
-  sky.addColorStop(1, "#1c1410");
+  sky.addColorStop(0, "#1a1c22");
+  sky.addColorStop(0.45, "#2c3038");
+  sky.addColorStop(0.68, "#4a4038");
+  sky.addColorStop(0.82, "#3a2c24");
+  sky.addColorStop(1, "#16110e");
   ctx.fillStyle = sky;
   ctx.fillRect(0, 0, size, size);
 
@@ -268,7 +268,7 @@ export type LibraryTextures = {
 export function createLibraryTextures(anisotropy: number): LibraryTextures {
   const walnut = canvasTexture(
     1024,
-    (ctx, size) => paintWood(ctx, size, "#2a1810", "#6b442c", 1),
+    (ctx, size) => paintWood(ctx, size, "#4a2c1c", "#a06a48", 1),
     anisotropy,
   );
   walnut.repeat.set(2.2, 1.4);
@@ -293,7 +293,7 @@ export function createLibraryTextures(anisotropy: number): LibraryTextures {
 
   const oak = canvasTexture(
     1024,
-    (ctx, size) => paintWood(ctx, size, "#3d2618", "#8a5a38", 0.85),
+    (ctx, size) => paintWood(ctx, size, "#5a3820", "#c08a58", 0.85),
     anisotropy,
   );
   oak.repeat.set(1.4, 1.4);

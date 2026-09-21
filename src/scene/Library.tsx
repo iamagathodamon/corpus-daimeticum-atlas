@@ -42,7 +42,7 @@ function Scene({ quality }: { quality: Quality }) {
             mipmapBlur
             luminanceSmoothing={0.2}
           />
-          <Vignette eskil={false} offset={0.2} darkness={0.74} />
+          <Vignette eskil={false} offset={0.32} darkness={0.42} />
           <SMAA />
         </EffectComposer>
       ) : null}
@@ -58,14 +58,14 @@ export function Library({ quality }: { quality: Quality }) {
       dpr={quality.dpr}
       camera={{
         fov: quality.isMobile ? 42 : 36,
-        near: 0.12,
+        near: 0.35,
         far: 40,
-        position: quality.intro ? [-3.15, 1.48, 0.55] : [0.22, 1.36, 2.82],
+        position: quality.intro ? [-2.2, 1.5, 0.2] : [0.55, 1.68, 0.9],
       }}
       gl={{
         antialias: !quality.isMobile,
         toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 0.9,
+        toneMappingExposure: 1.22,
         powerPreference: quality.isMobile ? "low-power" : "high-performance",
       }}
       onCreated={({ gl }) => {

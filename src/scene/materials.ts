@@ -26,7 +26,7 @@ export function createLibraryMaterials(anisotropy: number): LibraryMaterials {
     roughnessMap: textures.walnutRough,
     roughness: 0.62,
     metalness: 0.02,
-    color: "#d8c4aa",
+    color: "#f3e4d0",
   });
 
   const walnutDark = new THREE.MeshStandardMaterial({
@@ -34,35 +34,35 @@ export function createLibraryMaterials(anisotropy: number): LibraryMaterials {
     roughnessMap: textures.walnutRough,
     roughness: 0.7,
     metalness: 0.02,
-    color: "#8a7360",
+    color: "#7a5c48",
   });
 
   const oak = new THREE.MeshStandardMaterial({
     map: textures.oak,
     roughness: 0.55,
     metalness: 0.02,
-    color: "#e6d2bc",
+    color: "#f4e2cc",
   });
 
   const floor = new THREE.MeshStandardMaterial({
     map: textures.parquet,
     roughness: 0.42,
     metalness: 0.04,
-    color: "#c8b09a",
+    color: "#ecd8c4",
   });
 
   const plaster = new THREE.MeshStandardMaterial({
     map: textures.plaster,
     roughness: 0.86,
     metalness: 0,
-    color: "#cfc6b6",
+    color: "#e8dfd0",
   });
 
   const leather = new THREE.MeshStandardMaterial({
     map: textures.leather,
     roughness: 0.58,
     metalness: 0.04,
-    color: "#c9a090",
+    color: "#e0b8a8",
   });
 
   const brass = new THREE.MeshStandardMaterial({

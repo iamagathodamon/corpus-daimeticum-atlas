@@ -45,26 +45,13 @@ function WindowSash({
         [-0.78, 0, 0.78].map((py) => (
           <mesh key={`${px}-${py}`} position={[px, py, 0.01]}>
             <planeGeometry args={[0.56, 0.72]} />
-            {cheapGlass ? (
-              <meshStandardMaterial
-                color="#8ea0b4"
-                transparent
-                opacity={0.28}
-                roughness={0.12}
-                metalness={0.1}
-              />
-            ) : (
-              <meshPhysicalMaterial
-                color="#9aabbe"
-                metalness={0}
-                roughness={0.08}
-                transmission={0.72}
-                thickness={0.04}
-                transparent
-                opacity={0.55}
-                ior={1.45}
-              />
-            )}
+            <meshStandardMaterial
+              color={cheapGlass ? "#7d8896" : "#6f7b8a"}
+              transparent
+              opacity={cheapGlass ? 0.22 : 0.32}
+              roughness={0.18}
+              metalness={0.08}
+            />
           </mesh>
         )),
       )}
@@ -111,18 +98,6 @@ export function Room({ materials, cheapGlass }: RoomProps) {
       >
         <planeGeometry args={[w + 0.4, d + 0.4]} />
       </mesh>
-
-      {[-1.6, 0, 1.6].map((z) => (
-        <mesh
-          key={z}
-          position={[0, h - 0.08, z]}
-          castShadow
-          receiveShadow
-          material={materials.walnut}
-        >
-          <boxGeometry args={[w - 0.3, 0.16, 0.22]} />
-        </mesh>
-      ))}
 
       <Wall
         position={[-ROOM.halfWidth - ROOM.wall / 2, h / 2, 0]}
@@ -180,15 +155,12 @@ export function Room({ materials, cheapGlass }: RoomProps) {
         <meshStandardMaterial color="#16110d" roughness={1} />
       </mesh>
 
-      <mesh position={[0, 0.05, 0]} receiveShadow material={materials.walnut}>
-        <boxGeometry args={[w - 0.08, 0.1, 0.08]} />
-      </mesh>
       <mesh
-        position={[0, 0.09, -ROOM.halfDepth + 0.05]}
+        position={[0, 0.08, -ROOM.halfDepth + 0.05]}
         receiveShadow
         material={materials.walnut}
       >
-        <boxGeometry args={[w - 0.2, 0.18, 0.08]} />
+        <boxGeometry args={[w - 0.2, 0.16, 0.08]} />
       </mesh>
     </group>
   );
