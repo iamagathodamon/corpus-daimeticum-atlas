@@ -1,49 +1,51 @@
-# Corpus Daimeticum
+# Corpus Daemeticum
 
-A provenance-first reading corpus of sacred and philosophical texts, published at **[corpus.agathodamon.com](https://corpus.agathodamon.com)**.
+A private Three.js reading room. The shelves begin empty — awaiting the collection.
 
-This repository is a public index of the live archive. The application source is maintained separately. Every published full text is a named historical edition or translation with a source URL, access date, SHA-256 checksum, and a per-work rights review. There is no blanket corpus-level license; rights are asserted only per work.
+This replaces the former atlas / catalogue surface. There are no sample books.
 
-## Read the archive
+## Run locally
 
-| Surface | URL |
-| --- | --- |
-| Knowledge atlas (library) | https://corpus.agathodamon.com |
-| Dataset / rights inventory | https://corpus.agathodamon.com/dataset |
-| Browse by tradition | https://corpus.agathodamon.com/traditions |
-| Browse by language | https://corpus.agathodamon.com/languages |
-| Browse by translator | https://corpus.agathodamon.com/translators |
-| About the method | https://corpus.agathodamon.com/about |
-| Reading guide | https://corpus.agathodamon.com/guide |
-| Glossary | https://corpus.agathodamon.com/glossary |
-| FAQ | https://corpus.agathodamon.com/faq |
-| Search the corpus | https://corpus.agathodamon.com/search |
-| Support / funding ladder | https://corpus.agathodamon.com/support |
-| Atom feed | https://corpus.agathodamon.com/feed.xml |
-| Sitemap | https://corpus.agathodamon.com/sitemap.xml |
-| LLM / retrieval index | https://corpus.agathodamon.com/llms.txt |
+```bash
+npm install
+npm run dev
+```
 
-## What is in the corpus
+Open the URL Vite prints (usually `http://localhost:5173`).
 
-The current public collection is a rights-clean sample spanning twelve traditions, including Hermetic, Mesopotamian, Vedic, Daoist, Platonic, Jewish, Hindu, Buddhist, Confucian, Islamic, Ancient Egyptian, and K'iche' Maya works. Editions are historical public-domain translations (1611–1919) by named scholars, not machine-generated summaries.
+```bash
+npm run build
+npm run preview
+```
 
-Full text is published only for sources in the **redistributable** rights lane. Research-only and metadata-only records stay off this public surface.
+`npm run build` type-checks and writes a production bundle to `dist/`.
 
-## How this archive is funded
+## How to add a book later
 
-The live texts are free. Growing from the current sample toward a 2 TB working corpus and a 16 TB archival collection requires off-machine storage (about $12/month at 2 TB and about $96/month at 16 TB, Backblaze B2 list-price planning estimates). The [support page](https://corpus.agathodamon.com/support) states the traffic and revenue gates for each funding rung. There is no live donation processor yet.
+The collection is a single array in [`src/data/books.ts`](src/data/books.ts). It ships as `[]`. Do not invent placeholder works.
 
-## How to cite
+Each entry uses this shape:
 
-See [`CITATION.cff`](./CITATION.cff), or cite a specific work from its live provenance record (each work page includes a “How to cite this page” line). Example for the archive as a whole:
+```ts
+{
+  title: "Title of the work",
+  author: "Author or translator",
+  slug: "title-of-the-work",
+  cover: "/covers/title-of-the-work.jpg",
+  note: "A short private note.",
+  readUrl: "https://example.com/read", // optional
+  buyLinks: [
+    { partner: "Partner name", url: "https://example.com/buy" },
+  ],
+}
+```
 
-> Rolnick, Damon. *Corpus Daimeticum*. https://corpus.agathodamon.com. Accessed YYYY-MM-DD.
+Put cover images in `public/covers/`. A volume is drawn onto the next empty shelf slot in order. The overlay’s Read / Buy / Lectern controls stay dormant until a real volume is selected.
 
-## Rights
+Affiliate or partner tracking on `buyLinks` comes next. Do not add tracking parameters until that programme is ready.
 
-Do not assume CC-BY, MIT, or any other bulk license for the collection. Inspect the per-work license and checksum on the [dataset page](https://corpus.agathodamon.com/dataset) and on each work’s provenance record.
+## Notes
 
-## Related
-
-- Publisher: [agathodamon.com](https://agathodamon.com)
-- Project page: [agathodamon.com/projects/corpus-daemeticum](https://agathodamon.com/projects/corpus-daemeticum)
+- WebGL is required for the room. Browsers without it see a quiet fallback message.
+- Narrow or low-memory devices get a reduced scene: fewer effects, no intro dolly, simpler glass.
+- The brand spelling is **Daemeticum** (with *e*).

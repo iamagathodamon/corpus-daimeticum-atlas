@@ -1,0 +1,163 @@
+:root {
+  --ink: #0a0806;
+  --paper: #e8dcc8;
+  --paper-dim: rgba(232, 220, 200, 0.58);
+  --paper-faint: rgba(232, 220, 200, 0.22);
+  --rule: rgba(232, 220, 200, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "EB Garamond", "Palatino Linotype", Palatino, "Times New Roman", serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.boot {
+  width: 100%;
+  height: 100%;
+  background: var(--ink);
+}
+
+.library-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.4rem 2.6rem 1.8rem;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 6, 4, 0.58) 0%, rgba(8, 6, 4, 0) 22%),
+    linear-gradient(0deg, rgba(8, 6, 4, 0.64) 0%, rgba(8, 6, 4, 0) 28%);
+}
+
+.masthead h1 {
+  margin: 0.28rem 0 0;
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+}
+
+.overlay-base {
+  max-width: 34rem;
+}
+
+.status,
+.lede,
+.note {
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--paper);
+}
+
+.note {
+  margin-top: 0.45rem;
+  color: var(--paper-dim);
+  font-size: 1.02rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1.15rem;
+  margin-top: 1.1rem;
+  pointer-events: auto;
+}
+
+.actions button {
+  appearance: none;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  background: transparent;
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.92rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.2rem 0 0.28rem;
+  cursor: pointer;
+}
+
+.actions button:disabled {
+  color: var(--paper-faint);
+  border-bottom-color: transparent;
+  cursor: default;
+}
+
+.actions button:not(:disabled):hover {
+  color: #fff6e8;
+}
+
+.fallback {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.4rem;
+  max-width: 38rem;
+}
+
+.fallback h1 {
+  margin: 0.3rem 0 1.1rem;
+  font-size: 2.2rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.fallback .lede {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 820px) {
+  .overlay {
+    padding: 1.4rem 1.2rem 1.2rem;
+  }
+
+  .masthead h1 {
+    letter-spacing: 0.06em;
+  }
+
+  .status {
+    font-size: 1.05rem;
+  }
+
+  .actions {
+    gap: 0.85rem;
+  }
+
+  .actions button {
+    font-size: 0.8rem;
+  }
+}
