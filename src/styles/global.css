@@ -1,0 +1,195 @@
+:root {
+  --void: #c9c0b2;
+  --ink: #1c1814;
+  --type: #221c16;
+  --mute: rgba(34, 28, 22, 0.56);
+  --faint: rgba(34, 28, 22, 0.28);
+  --line: rgba(34, 28, 22, 0.12);
+  --panel: rgba(244, 236, 224, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--void);
+  color: var(--type);
+  font-family: Outfit, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+.boot {
+  width: 100%;
+  height: 100%;
+  background: var(--void);
+}
+
+.field-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.4rem 1.5rem 1.2rem;
+  pointer-events: none;
+}
+
+.masthead {
+  align-self: flex-start;
+  max-width: 22rem;
+  padding: 0.85rem 1.05rem 0.95rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+}
+
+.masthead h1,
+.fallback h1 {
+  margin: 0.28rem 0 0.32rem;
+  font-family: Syne, Outfit, sans-serif;
+  font-size: clamp(1.35rem, 2.6vw, 2.05rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  color: var(--ink);
+}
+
+.index {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.eyebrow {
+  margin: 0;
+  max-width: 16rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.click-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 0.7rem;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.64rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mute);
+  pointer-events: none;
+}
+
+.overlay-base {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 20rem;
+  padding: 0.65rem 0.85rem 0.75rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+}
+
+.status,
+.lede,
+.note {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--type);
+}
+
+.note {
+  color: var(--mute);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
+.actions button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.35);
+  color: var(--type);
+  font: inherit;
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.actions button:disabled {
+  color: var(--faint);
+  cursor: default;
+}
+
+.actions button:not(:disabled):hover {
+  border-color: rgba(26, 29, 33, 0.4);
+}
+
+.overlay.is-locked .masthead,
+.overlay.is-locked .overlay-base {
+  opacity: 0.38;
+}
+
+.overlay.is-locked .click-hint {
+  opacity: 0.7;
+}
+
+.fallback {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.2rem;
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.55), transparent 42%),
+    linear-gradient(90deg, rgba(30, 34, 38, 0.06), transparent 28%),
+    var(--void);
+}
+
+.fallback .lede {
+  margin: 0.4rem 0 0.8rem;
+  max-width: 26rem;
+}
+
+@media (max-width: 820px) {
+  .overlay {
+    padding: 0.9rem 0.85rem 0.9rem;
+  }
+
+  .masthead h1,
+  .fallback h1 {
+    font-size: 1.35rem;
+  }
+
+  .click-hint {
+    display: none;
+  }
+}
