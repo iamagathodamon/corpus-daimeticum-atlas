@@ -73,6 +73,32 @@ export function stairFlight(options: {
   return mergeBoxes(parts);
 }
 
+export function stairNosings(options: {
+  steps: number;
+  rise: number;
+  run: number;
+  width: number;
+  x: number;
+  z0: number;
+  y0?: number;
+}): THREE.BufferGeometry {
+  const { steps, rise, run, width, x, z0, y0 = 0 } = options;
+  const parts: THREE.BufferGeometry[] = [];
+  for (let i = 0; i < steps; i += 1) {
+    parts.push(
+      transformedBox(
+        width - 0.08,
+        0.03,
+        0.055,
+        x,
+        y0 + (i + 1) * rise + 0.01,
+        z0 + i * run + run - 0.02,
+      ),
+    );
+  }
+  return mergeBoxes(parts);
+}
+
 export function stairFlightX(options: {
   steps: number;
   rise: number;

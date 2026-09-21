@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { EffectComposer, Vignette } from "@react-three/postprocessing";
+import { EffectComposer, N8AO, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUniformsLib.js";
 import type { Quality } from "../lib/quality";
@@ -17,7 +17,8 @@ function Scene({ quality }: { quality: Quality }) {
       <Walker quality={quality} />
       {quality.post ? (
         <EffectComposer enableNormalPass={false} multisampling={0}>
-          <Vignette eskil={false} offset={0.18} darkness={0.42} />
+          <N8AO aoRadius={6} intensity={2.4} distanceFalloff={1.1} />
+          <Vignette eskil={false} offset={0.2} darkness={0.46} />
         </EffectComposer>
       ) : null}
     </>
@@ -33,13 +34,13 @@ export function Library({ quality }: { quality: Quality }) {
       camera={{
         fov: quality.isMobile ? 60 : 54,
         near: 0.12,
-        far: 180,
+        far: 220,
         position: [0, 1.64, -12.4],
       }}
       gl={{
         antialias: !quality.isMobile,
         toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.08,
+        toneMappingExposure: 0.86,
         powerPreference: quality.isMobile ? "low-power" : "high-performance",
         alpha: false,
       }}

@@ -18,6 +18,7 @@ import {
   railRun,
   stairFlight,
   stairFlightX,
+  stairNosings,
   transformedBox,
 } from "./geometry";
 import { useTempleMaterials } from "./materials";
@@ -62,11 +63,11 @@ function Floor({ quality }: { quality: Quality }) {
           blur={[280, 80]}
           resolution={quality.isMobile ? 512 : 1024}
           mixBlur={0.85}
-          mixStrength={0.72}
-          mirror={0.28}
-          roughness={0.22}
+          mixStrength={0.38}
+          mirror={0.18}
+          roughness={0.28}
           metalness={0.12}
-          color="#8d959e"
+          color="#5a616a"
           depthScale={0.6}
           minDepthThreshold={0.7}
           maxDepthThreshold={1.4}
@@ -107,6 +108,10 @@ export function Architecture({ quality }: { quality: Quality }) {
       transformedBox(1.8, 34, 96, 26.8, 17, 46),
       transformedBox(56, 34, 1.8, 0, 17, 95.2),
       transformedBox(56, 2.4, 8, 0, 33.1, -1.2),
+      transformedBox(16.4, 1.1, 92, -18.4, 33.5, 48),
+      transformedBox(16.4, 1.1, 92, 18.4, 33.5, 48),
+      transformedBox(20.8, 1.1, 26, 0, 33.5, 14),
+      transformedBox(20.8, 1.1, 24, 0, 33.5, 81.5),
       transformedBox(56, 0.42, 4, 0, 0.21, 46),
     ];
     return mergeBoxes(parts);
@@ -123,6 +128,8 @@ export function Architecture({ quality }: { quality: Quality }) {
         transformedBox(18, 1.55, 12, -16.4, 16.2, 52, 0.04, 0.48, -0.28),
         transformedBox(16, 1.4, 11, 17.2, 17.6, 58, -0.08, -0.42, 0.2),
         transformedBox(20, 1.7, 10, 0, 28.6, 22, 0.2, 0, 0),
+        transformedBox(30, 3.2, 16, -7.2, 15.4, 26, 0.3, 0.42, -0.16),
+        transformedBox(18, 2.4, 12, 7.4, 17.8, 38, -0.18, -0.28, 0.12),
       ]),
     [],
   );
@@ -135,25 +142,59 @@ export function Architecture({ quality }: { quality: Quality }) {
         y: 33.6,
         z: 48,
         cells: quality.diagrid,
-        beam: 0.16,
+        beam: 0.42,
       }),
     [quality.diagrid],
   );
 
-  const wellRim = useMemo(
+  const nosings = useMemo(
+    () =>
+      stairNosings({
+        steps: STAIR_STEPS,
+        rise: STAIR_RISE,
+        run: STAIR_RUN,
+        width: STAIR_WIDTH,
+        x: 0,
+        z0: STAIR_START_Z,
+      }),
+    [],
+  );
+
+  const soffits = useMemo(
     () =>
       mergeBoxes([
-        transformedBox(22.4, 0.55, 0.7, 0, 33.2, 27),
-        transformedBox(22.4, 0.55, 0.7, 0, 33.2, 69),
-        transformedBox(0.7, 0.55, 42.8, -10.7, 33.2, 48),
-        transformedBox(0.7, 0.55, 42.8, 10.7, 33.2, 48),
-        transformedBox(21.2, 0.08, 0.08, 0, 33.48, 27),
-        transformedBox(21.2, 0.08, 0.08, 0, 33.48, 69),
-        transformedBox(0.08, 0.08, 41.8, -10.7, 33.48, 48),
-        transformedBox(0.08, 0.08, 41.8, 10.7, 33.48, 48),
+        transformedBox(4.8, 0.22, 74, -23.4, 7.92, 50),
+        transformedBox(4.8, 0.22, 74, 23.4, 7.92, 50),
+        transformedBox(4.8, 0.22, 34, -23.4, 16.12, 70),
+        transformedBox(4.8, 0.22, 34, 23.4, 16.12, 70),
       ]),
     [],
   );
+
+  const farWall = useMemo(
+    () => transformedBox(52, 30, 0.45, 0, 16, 94.55),
+    [],
+  );
+
+  const wellRim = useMemo(() => {
+    const parts = [
+      transformedBox(22.4, 0.55, 0.7, 0, 33.2, 27),
+      transformedBox(22.4, 0.55, 0.7, 0, 33.2, 69),
+      transformedBox(0.7, 0.55, 42.8, -10.7, 33.2, 48),
+      transformedBox(0.7, 0.55, 42.8, 10.7, 33.2, 48),
+    ];
+    const collars: Array<[number, number, number]> = [
+      [18, 36, 24.2],
+      [16, 32, 28.4],
+    ];
+    for (const [w, d, y] of collars) {
+      parts.push(transformedBox(w + 0.7, 0.38, 0.55, 0, y, 48 - d / 2));
+      parts.push(transformedBox(w + 0.7, 0.38, 0.55, 0, y, 48 + d / 2));
+      parts.push(transformedBox(0.55, 0.38, d + 0.7, -w / 2, y, 48));
+      parts.push(transformedBox(0.55, 0.38, d + 0.7, w / 2, y, 48));
+    }
+    return mergeBoxes(parts);
+  }, []);
 
   const stair = useMemo(
     () =>
@@ -387,10 +428,13 @@ export function Architecture({ quality }: { quality: Quality }) {
       <MergedMesh geometry={lattice} material={materials.metal} castShadow />
       <MergedMesh geometry={wellRim} material={materials.glow} />
       <MergedMesh geometry={stair} material={materials.stone} castShadow receiveShadow />
+      <MergedMesh geometry={nosings} material={materials.metal} />
       <MergedMesh geometry={plaza} material={materials.stone} castShadow receiveShadow />
       <MergedMesh geometry={galleries} material={materials.stone} castShadow receiveShadow />
+      <MergedMesh geometry={soffits} material={materials.stoneDark} receiveShadow />
+      <MergedMesh geometry={farWall} material={materials.stoneDark} receiveShadow />
       <MergedMesh geometry={rails} material={materials.metal} castShadow />
-      <MergedMesh geometry={piers} material={materials.stoneDark} castShadow receiveShadow />
+      <MergedMesh geometry={piers} material={materials.stone} castShadow receiveShadow />
       <MergedMesh geometry={aedicules} material={materials.stoneDark} receiveShadow />
       <MergedMesh geometry={stele} material={materials.stoneDark} castShadow receiveShadow />
       <MergedMesh geometry={axis} material={materials.metal} />

@@ -104,39 +104,44 @@ export function createTempleMaterials(): TempleMaterials {
   rough.repeat.set(7, 11);
 
   const stone = new THREE.MeshPhysicalMaterial({
-    color: "#d5d9df",
+    color: "#c7ccd3",
     map: stoneMap,
     roughnessMap: rough,
-    roughness: 0.84,
-    metalness: 0.02,
-    envMapIntensity: 0.35,
-    clearcoat: 0.06,
+    roughness: 0.72,
+    metalness: 0.03,
+    envMapIntensity: 0.45,
+    clearcoat: 0.04,
     clearcoatRoughness: 0.7,
   });
 
   const stoneDark = new THREE.MeshPhysicalMaterial({
-    color: "#3a4047",
+    color: "#6d747c",
     map: darkMap,
-    roughness: 0.72,
-    metalness: 0.08,
-    envMapIntensity: 0.28,
+    roughness: 0.62,
+    metalness: 0.1,
+    envMapIntensity: 0.4,
   });
 
   const plate = new THREE.MeshPhysicalMaterial({
-    color: "#e7eaef",
+    color: "#d4d8de",
     map: plateMap,
-    roughness: 0.78,
-    metalness: 0.01,
-    envMapIntensity: 0.4,
-    clearcoat: 0.12,
-    clearcoatRoughness: 0.55,
+    roughness: 0.58,
+    metalness: 0.02,
+    envMapIntensity: 0.55,
+    clearcoat: 0.14,
+    clearcoatRoughness: 0.46,
+    emissive: "#3a4048",
+    emissiveIntensity: 0.1,
   });
 
+  stone.emissive = new THREE.Color("#2c3238");
+  stone.emissiveIntensity = 0.06;
+
   const metal = new THREE.MeshPhysicalMaterial({
-    color: "#1d2126",
-    roughness: 0.38,
-    metalness: 0.86,
-    envMapIntensity: 0.7,
+    color: "#3c434c",
+    roughness: 0.34,
+    metalness: 0.72,
+    envMapIntensity: 0.75,
   });
 
   const glass = new THREE.MeshPhysicalMaterial({
@@ -151,15 +156,15 @@ export function createTempleMaterials(): TempleMaterials {
   });
 
   const glow = new THREE.MeshBasicMaterial({
-    color: "#f4f7fb",
+    color: "#d5dee8",
   });
 
   const slit = new THREE.MeshBasicMaterial({
-    color: "#fff3d8",
+    color: "#ffe7bc",
   });
 
   const sky = new THREE.MeshBasicMaterial({
-    color: "#e8eef5",
+    color: "#9aadc0",
     side: THREE.DoubleSide,
   });
 

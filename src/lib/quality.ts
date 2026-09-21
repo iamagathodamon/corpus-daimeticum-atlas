@@ -27,7 +27,7 @@ export function detectQuality(): Quality {
     dpr: mobile ? [1, 1.25] : [1, 1.75],
     shadows: !reduced,
     reflector: !reduced,
-    dust: reduced ? 220 : 640,
+    dust: reduced ? 80 : 180,
     diagrid: reduced ? 5 : 9,
   };
 }

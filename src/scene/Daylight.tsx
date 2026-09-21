@@ -15,7 +15,7 @@ function Sun() {
       <primitive object={target} />
       <directionalLight
         position={[10, 58, 22]}
-        intensity={4.6}
+        intensity={2.15}
         color="#fff3df"
         castShadow
         shadow-mapSize={[2048, 2048]}
@@ -79,9 +79,9 @@ function Dust({ count }: { count: number }) {
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <octahedronGeometry args={[1, 0]} />
       <meshBasicMaterial
-        color="#f6f1e4"
+        color="#efe6d2"
         transparent
-        opacity={0.28}
+        opacity={0.16}
         depthWrite={false}
       />
     </instancedMesh>
@@ -91,40 +91,55 @@ function Dust({ count }: { count: number }) {
 export function Daylight({ quality }: { quality: Quality }) {
   return (
     <>
-      <color attach="background" args={["#d4dbe4"]} />
-      <fog attach="fog" args={["#d4dbe4", 26, 128]} />
-      <hemisphereLight args={["#d7e3f0", "#8a8478", 0.62]} />
-      <ambientLight intensity={0.18} color="#e7edf3" />
+      <color attach="background" args={["#b7c2ce"]} />
+      <fog attach="fog" args={["#b7c2ce", 78, 190]} />
+      <hemisphereLight args={["#c5d2e0", "#9a9488", 1.15]} />
+      <ambientLight intensity={0.28} color="#d5dbe3" />
       {quality.shadows ? <Sun /> : (
         <directionalLight
           position={[10, 58, 22]}
-          intensity={3.4}
+          intensity={2.1}
           color="#fff3df"
         />
       )}
+      <directionalLight
+        position={[0, 18, 96]}
+        intensity={1.15}
+        color="#fff6e6"
+      />
+      <directionalLight
+        position={[-18, 8, 20]}
+        intensity={0.42}
+        color="#d7e2ee"
+      />
       <rectAreaLight
         position={[0, 33.4, 48]}
         width={18}
         height={38}
-        intensity={18}
-        color="#f7fbff"
+        intensity={5.2}
+        color="#f4f8fc"
         rotation={[-Math.PI / 2, 0, 0]}
       />
       <rectAreaLight
         position={[0, 16, 93.8]}
         width={22}
         height={16}
-        intensity={14}
-        color="#fff4dc"
+        intensity={6.4}
+        color="#ffe9c4"
         rotation={[0, Math.PI, 0]}
       />
       <rectAreaLight
         position={[0, 2.2, -15.2]}
         width={5}
         height={3.4}
-        intensity={3.2}
+        intensity={2.2}
         color="#cdd8e6"
         rotation={[0, 0, 0]}
+      />
+      <directionalLight
+        position={[2, 5, 36]}
+        intensity={0.32}
+        color="#d7dee6"
       />
       <Dust count={quality.dust} />
     </>
