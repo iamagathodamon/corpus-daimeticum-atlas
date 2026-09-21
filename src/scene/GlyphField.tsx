@@ -96,7 +96,7 @@ export function GlyphField({ quality }: { quality: Quality }) {
         map={map}
         color={new Color("#d7b6ff")}
         transparent
-        opacity={0.42}
+        opacity={0.38}
         depthWrite={false}
         blending={AdditiveBlending}
         side={DoubleSide}

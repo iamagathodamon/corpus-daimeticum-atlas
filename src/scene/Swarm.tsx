@@ -2,67 +2,63 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import {
   AdditiveBlending,
-  BufferAttribute,
-  BufferGeometry,
-  Points,
-  ShaderMaterial,
+  Color,
+  InstancedMesh,
+  Object3D,
 } from "three";
 import type { Quality } from "../lib/quality";
 import { pointer } from "./pointer";
-import { pointFragment, pointVertex } from "./shaders";
 
 export function Swarm({ quality }: { quality: Quality }) {
-  const points = useRef<Points>(null);
-  const material = useMemo(
-    () =>
-      new ShaderMaterial({
-        uniforms: {
-          uTime: { value: 0 },
-          uPixelRatio: { value: Math.min(window.devicePixelRatio, 1.75) },
-          uColor: { value: { x: 0.95, y: 0.72, z: 0.32 } },
-        },
-        vertexShader: pointVertex,
-        fragmentShader: pointFragment,
-        transparent: true,
-        depthWrite: false,
-        blending: AdditiveBlending,
-      }),
-    [],
-  );
-
-  const geometry = useMemo(() => {
-    const count = quality.swarm;
-    const positions = new Float32Array(count * 3);
-    const sizes = new Float32Array(count);
-    const seeds = new Float32Array(count);
-    for (let i = 0; i < count; i += 1) {
+  const mesh = useRef<InstancedMesh>(null);
+  const dummy = useMemo(() => new Object3D(), []);
+  const count = Math.min(quality.swarm, quality.isMobile ? 220 : 520);
+  const seeds = useMemo(() => {
+    return Array.from({ length: count }, () => {
       const a = Math.random() * Math.PI * 2;
-      const r = 1.15 + Math.random() * 0.85;
-      positions[i * 3] = Math.cos(a) * r;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 0.7;
-      positions[i * 3 + 2] = Math.sin(a) * r;
-      sizes[i] = 1.1 + Math.random() * 2.2;
-      seeds[i] = Math.random();
-    }
-    const geo = new BufferGeometry();
-    geo.setAttribute("position", new BufferAttribute(positions, 3));
-    geo.setAttribute("aSize", new BufferAttribute(sizes, 1));
-    geo.setAttribute("aSeed", new BufferAttribute(seeds, 1));
-    return geo;
-  }, [quality.swarm]);
+      const r = 1.05 + Math.random() * 0.95;
+      return {
+        a,
+        r,
+        y: (Math.random() - 0.5) * 0.7,
+        s: 0.01 + Math.random() * 0.02,
+        speed: 0.35 + Math.random() * 0.55,
+      };
+    });
+  }, [count]);
 
   useFrame(({ clock }) => {
-    material.uniforms.uTime.value = clock.elapsedTime;
-    if (points.current) {
-      points.current.rotation.y = clock.elapsedTime * 0.14;
-      points.current.position.x = pointer.x * 0.28;
-      points.current.position.y = pointer.y * 0.2;
+    const inst = mesh.current;
+    if (!inst) {
+      return;
     }
+    const t = clock.elapsedTime;
+    inst.position.set(pointer.x * 0.3, pointer.y * 0.22, 0);
+    for (let i = 0; i < seeds.length; i += 1) {
+      const s = seeds[i];
+      const a = s.a + t * s.speed;
+      dummy.position.set(Math.cos(a) * s.r, s.y + Math.sin(a * 2) * 0.08, Math.sin(a) * s.r);
+      dummy.scale.setScalar(s.s);
+      dummy.updateMatrix();
+      inst.setMatrixAt(i, dummy.matrix);
+    }
+    inst.instanceMatrix.needsUpdate = true;
   });
 
   return (
-    <points ref={points} geometry={geometry} frustumCulled={false}>
-      <primitive object={material} attach="material" />
-    </points>
+    <instancedMesh
+      ref={mesh}
+      args={[undefined, undefined, count]}
+      frustumCulled={false}
+    >
+      <icosahedronGeometry args={[1, 0]} />
+      <meshBasicMaterial
+        color={new Color("#ffc85a")}
+        transparent
+        opacity={0.62}
+        depthWrite={false}
+        blending={AdditiveBlending}
+      />
+    </instancedMesh>
   );
 }

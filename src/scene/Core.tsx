@@ -1,55 +1,61 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import type { Group, Mesh } from "three";
+import { AdditiveBlending, type Group, type Mesh } from "three";
 
 export function Core() {
   const group = useRef<Group>(null);
-  const ring = useRef<Mesh>(null);
   const knot = useRef<Mesh>(null);
+  const glow = useRef<Mesh>(null);
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     if (group.current) {
-      group.current.rotation.y = t * 0.16;
-      group.current.rotation.z = Math.sin(t * 0.21) * 0.18;
+      group.current.rotation.y = t * 0.18;
+      group.current.rotation.z = Math.sin(t * 0.23) * 0.2;
     }
     if (knot.current) {
-      knot.current.rotation.x = t * 0.22;
-      knot.current.rotation.y = t * 0.13;
+      knot.current.rotation.x = t * 0.28;
+      knot.current.rotation.y = t * 0.16;
     }
-    if (ring.current) {
-      ring.current.rotation.x = Math.PI / 2 + Math.sin(t * 0.3) * 0.12;
+    if (glow.current) {
+      const s = 1.05 + Math.sin(t * 1.8) * 0.12;
+      glow.current.scale.setScalar(s);
     }
   });
 
   return (
     <group ref={group}>
-      <mesh ref={knot}>
-        <torusKnotGeometry args={[0.62, 0.09, 180, 24, 2, 3]} />
-        <meshPhysicalMaterial
-          color="#12081c"
-          metalness={0.92}
-          roughness={0.14}
-          iridescence={1}
-          iridescenceIOR={1.7}
-          iridescenceThicknessRange={[120, 640]}
-          clearcoat={1}
-          clearcoatRoughness={0.08}
-          emissive="#3a1468"
-          emissiveIntensity={0.35}
+      <mesh ref={glow}>
+        <sphereGeometry args={[0.55, 32, 32]} />
+        <meshBasicMaterial
+          color="#6a2cff"
+          transparent
+          opacity={0.14}
+          depthWrite={false}
+          blending={AdditiveBlending}
         />
       </mesh>
-      <mesh ref={ring}>
-        <torusGeometry args={[1.18, 0.012, 16, 96]} />
-        <meshBasicMaterial color="#f0c56a" transparent opacity={0.72} />
+      <mesh>
+        <sphereGeometry args={[0.14, 24, 24]} />
+        <meshBasicMaterial color="#f2d89a" />
+      </mesh>
+      <mesh ref={knot}>
+        <torusKnotGeometry args={[0.72, 0.11, 220, 28, 2, 3]} />
+        <meshStandardMaterial
+          color="#1a0a2c"
+          metalness={0.88}
+          roughness={0.22}
+          emissive="#8b5cf6"
+          emissiveIntensity={0.55}
+        />
       </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.18, 0.004, 8, 80]} />
-        <meshBasicMaterial color="#7ce7ff" transparent opacity={0.45} />
+        <torusGeometry args={[1.32, 0.012, 16, 120]} />
+        <meshBasicMaterial color="#e8b84a" />
       </mesh>
-      <mesh>
-        <sphereGeometry args={[0.22, 24, 24]} />
-        <meshBasicMaterial color="#14081f" />
+      <mesh rotation={[0.4, 0.2, 0]}>
+        <torusGeometry args={[1.55, 0.005, 12, 100]} />
+        <meshBasicMaterial color="#5ad4e8" transparent opacity={0.7} />
       </mesh>
     </group>
   );

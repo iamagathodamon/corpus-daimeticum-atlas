@@ -74,7 +74,7 @@ export function Filaments({ quality }: { quality: Quality }) {
     <group>
       {items.map((item) => (
         <mesh key={item.index} material={item.material}>
-          <tubeGeometry args={[item.curve, 160, 0.012, 6, true]} />
+          <tubeGeometry args={[item.curve, 140, 0.01, 6, true]} />
         </mesh>
       ))}
     </group>

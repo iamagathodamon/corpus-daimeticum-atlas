@@ -52,15 +52,15 @@ export const nebulaFragment = /* glsl */ `
     r.y += fbm(q + vec3(-t * 0.7, t, 0.4));
     float n = fbm(r);
     float n2 = fbm(r * 2.3 + n);
-    float veil = pow(max(n * 0.72 + n2 * 0.4, 0.0), 1.35);
+    float veil = pow(max(n * 0.62 + n2 * 0.32, 0.0), 1.55);
 
-    vec3 ink = vec3(0.01, 0.01, 0.04);
-    vec3 violet = vec3(0.28, 0.08, 0.48);
-    vec3 gold = vec3(0.82, 0.58, 0.28);
-    vec3 cyan = vec3(0.22, 0.78, 0.92);
+    vec3 ink = vec3(0.012, 0.008, 0.03);
+    vec3 violet = vec3(0.24, 0.07, 0.42);
+    vec3 gold = vec3(0.72, 0.48, 0.2);
+    vec3 cyan = vec3(0.18, 0.62, 0.78);
     vec3 col = mix(ink, violet, veil);
-    col = mix(col, gold, smoothstep(0.55, 0.92, n2) * 0.55);
-    col = mix(col, cyan, smoothstep(0.72, 1.0, n) * 0.28);
+    col = mix(col, gold, smoothstep(0.55, 0.92, n2) * 0.45);
+    col = mix(col, cyan, smoothstep(0.7, 1.0, n) * 0.22);
 
     float poles = pow(abs(dir.y), 1.6);
     col += cyan * poles * 0.08;
@@ -123,8 +123,8 @@ export const filamentFragment = /* glsl */ `
     float run = fract(vUv.x * 2.4 - uTime * 0.18);
     float pulse = smoothstep(0.0, 0.12, run) * smoothstep(0.55, 0.18, run);
     float edge = smoothstep(0.0, 0.28, vUv.y) * smoothstep(1.0, 0.72, vUv.y);
-    float a = (0.12 + pulse * 0.9) * edge;
-    vec3 col = mix(uColor, vec3(1.0), pulse * 0.45);
+    float a = (0.16 + pulse * 0.55) * edge;
+    vec3 col = mix(uColor * 0.55, uColor, pulse);
     gl_FragColor = vec4(col, a);
   }
 `;

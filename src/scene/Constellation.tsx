@@ -2,78 +2,65 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import {
   AdditiveBlending,
-  BufferAttribute,
-  BufferGeometry,
-  Points,
-  ShaderMaterial,
+  Color,
+  InstancedMesh,
+  Object3D,
 } from "three";
 import type { Quality } from "../lib/quality";
-import { pointFragment, pointVertex } from "./shaders";
-
-function randomInShell(radius: number, jitter: number): [number, number, number] {
-  const u = Math.random();
-  const v = Math.random();
-  const theta = u * Math.PI * 2;
-  const phi = Math.acos(2 * v - 1);
-  const r = radius + (Math.random() - 0.5) * jitter;
-  return [
-    r * Math.sin(phi) * Math.cos(theta),
-    r * Math.cos(phi) * 0.72,
-    r * Math.sin(phi) * Math.sin(theta),
-  ];
-}
 
 export function Constellation({ quality }: { quality: Quality }) {
-  const points = useRef<Points>(null);
-  const material = useMemo(
-    () =>
-      new ShaderMaterial({
-        uniforms: {
-          uTime: { value: 0 },
-          uPixelRatio: { value: Math.min(window.devicePixelRatio, 1.75) },
-          uColor: { value: { x: 0.78, y: 0.86, z: 1.0 } },
-        },
-        vertexShader: pointVertex,
-        fragmentShader: pointFragment,
-        transparent: true,
-        depthWrite: false,
-        blending: AdditiveBlending,
-      }),
-    [],
-  );
-
-  const geometry = useMemo(() => {
-    const count = quality.stars;
-    const positions = new Float32Array(count * 3);
-    const sizes = new Float32Array(count);
-    const seeds = new Float32Array(count);
-    for (let i = 0; i < count; i += 1) {
-      const shell = i % 5 === 0 ? 7.4 : i % 3 === 0 ? 4.8 : 3.2;
-      const [x, y, z] = randomInShell(shell, 1.8);
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
-      sizes[i] = 0.6 + Math.random() * 2.4;
-      seeds[i] = Math.random();
-    }
-    const geo = new BufferGeometry();
-    geo.setAttribute("position", new BufferAttribute(positions, 3));
-    geo.setAttribute("aSize", new BufferAttribute(sizes, 1));
-    geo.setAttribute("aSeed", new BufferAttribute(seeds, 1));
-    return geo;
-  }, [quality.stars]);
+  const mesh = useRef<InstancedMesh>(null);
+  const dummy = useMemo(() => new Object3D(), []);
+  const count = Math.min(quality.stars, quality.isMobile ? 420 : 900);
+  const seeds = useMemo(() => {
+    return Array.from({ length: count }, () => {
+      const u = Math.random();
+      const v = Math.random();
+      const theta = u * Math.PI * 2;
+      const phi = Math.acos(2 * v - 1);
+      const r = 2.6 + Math.random() * 5.2;
+      return {
+        x: r * Math.sin(phi) * Math.cos(theta),
+        y: r * Math.cos(phi) * 0.7,
+        z: r * Math.sin(phi) * Math.sin(theta),
+        s: 0.008 + Math.random() * 0.018,
+        phase: Math.random() * Math.PI * 2,
+      };
+    });
+  }, [count]);
 
   useFrame(({ clock }) => {
-    material.uniforms.uTime.value = clock.elapsedTime;
-    if (points.current) {
-      points.current.rotation.y = clock.elapsedTime * 0.018;
-      points.current.rotation.x = Math.sin(clock.elapsedTime * 0.07) * 0.08;
+    const inst = mesh.current;
+    if (!inst) {
+      return;
     }
+    const t = clock.elapsedTime;
+    inst.rotation.y = t * 0.02;
+    for (let i = 0; i < seeds.length; i += 1) {
+      const s = seeds[i];
+      const pulse = 0.75 + Math.sin(t * 1.6 + s.phase) * 0.35;
+      dummy.position.set(s.x, s.y, s.z);
+      dummy.scale.setScalar(s.s * pulse);
+      dummy.updateMatrix();
+      inst.setMatrixAt(i, dummy.matrix);
+    }
+    inst.instanceMatrix.needsUpdate = true;
   });
 
   return (
-    <points ref={points} geometry={geometry} frustumCulled={false}>
-      <primitive object={material} attach="material" />
-    </points>
+    <instancedMesh
+      ref={mesh}
+      args={[undefined, undefined, count]}
+      frustumCulled={false}
+    >
+      <octahedronGeometry args={[1, 0]} />
+      <meshBasicMaterial
+        color={new Color("#d8ecff")}
+        transparent
+        opacity={0.55}
+        depthWrite={false}
+        blending={AdditiveBlending}
+      />
+    </instancedMesh>
   );
 }

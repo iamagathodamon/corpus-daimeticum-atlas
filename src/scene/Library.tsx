@@ -1,12 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import {
-  EffectComposer,
-  Bloom,
-  ChromaticAberration,
-  Noise,
-  Vignette,
-} from "@react-three/postprocessing";
-import { BlendFunction } from "postprocessing";
+import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 import type { Quality } from "../lib/quality";
 import { CameraMotion } from "./CameraMotion";
@@ -22,7 +15,7 @@ import { Volumes } from "./Volumes";
 function Scene({ quality }: { quality: Quality }) {
   return (
     <>
-      <color attach="background" args={["#03010a"]} />
+      <color attach="background" args={["#02010c"]} />
       <ambientLight intensity={0.22} color="#8a7cff" />
       <pointLight position={[2.4, 1.6, 1.2]} intensity={8} color="#f0c56a" />
       <pointLight position={[-2.2, -0.8, -1.6]} intensity={6} color="#5ad0ff" />
@@ -38,22 +31,12 @@ function Scene({ quality }: { quality: Quality }) {
       {quality.post ? (
         <EffectComposer enableNormalPass={false} multisampling={0}>
           <Bloom
-            luminanceThreshold={0.18}
-            intensity={quality.isMobile ? 0.55 : 0.85}
+            luminanceThreshold={0.42}
+            intensity={quality.isMobile ? 0.35 : 0.48}
             mipmapBlur
-            luminanceSmoothing={0.2}
+            luminanceSmoothing={0.22}
           />
-          {quality.grain ? (
-            <ChromaticAberration
-              radialModulation
-              modulationOffset={0.18}
-              offset={new THREE.Vector2(0.0007, 0.0009)}
-            />
-          ) : null}
-          {quality.grain ? (
-            <Noise premultiply blendFunction={BlendFunction.SOFT_LIGHT} />
-          ) : null}
-          <Vignette eskil={false} offset={0.28} darkness={0.62} />
+          <Vignette eskil={false} offset={0.22} darkness={0.72} />
         </EffectComposer>
       ) : null}
     </>
@@ -74,7 +57,7 @@ export function Library({ quality }: { quality: Quality }) {
       gl={{
         antialias: !quality.isMobile,
         toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.05,
+        toneMappingExposure: 0.92,
         powerPreference: quality.isMobile ? "low-power" : "high-performance",
         alpha: false,
       }}

@@ -11,7 +11,7 @@ export function CameraMotion({ quality }: { quality: Quality }) {
   const { camera } = useThree();
 
   useFrame((_, delta) => {
-    intro.current = Math.min(1, intro.current + delta / (quality.intro ? 3.4 : 0.2));
+    intro.current = Math.min(1, intro.current + delta / (quality.intro ? 2.1 : 0.15));
     const e = intro.current * intro.current * (3 - 2 * intro.current);
     const t = performance.now() * 0.00012;
     const radius = MathUtils.lerp(9.5, 3.55, e);
