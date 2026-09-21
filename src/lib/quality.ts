@@ -1,12 +1,13 @@
 export type Quality = {
   isMobile: boolean;
-  shadows: boolean;
   post: boolean;
-  dust: boolean;
+  grain: boolean;
   intro: boolean;
   dpr: [number, number];
-  shadowMap: number;
-  anisotropy: number;
+  stars: number;
+  swarm: number;
+  glyphs: number;
+  filaments: number;
 };
 
 export function detectQuality(): Quality {
@@ -22,12 +23,13 @@ export function detectQuality(): Quality {
 
   return {
     isMobile: mobile,
-    shadows: !reduced,
-    post: !reduced,
-    dust: !reduced,
+    post: true,
+    grain: !reduced,
     intro: !mobile,
-    dpr: mobile ? [1, 1.25] : [1, 1.75],
-    shadowMap: reduced ? 512 : 2048,
-    anisotropy: reduced ? 4 : 8,
+    dpr: mobile ? [1, 1.35] : [1, 1.75],
+    stars: reduced ? 2800 : 11000,
+    swarm: reduced ? 900 : 2800,
+    glyphs: reduced ? 36 : 110,
+    filaments: reduced ? 2 : 5,
   };
 }

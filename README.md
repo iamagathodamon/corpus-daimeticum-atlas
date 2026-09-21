@@ -1,8 +1,8 @@
 # Corpus Daemeticum
 
-A private Three.js reading room. The shelves begin empty — awaiting the collection.
+A WebGL field for a private library of living texts. The collection begins empty.
 
-This replaces the former atlas / catalogue surface. There are no sample books.
+This replaces both the former atlas / catalogue surface and the rejected wooden reading-room staging. There are no sample books.
 
 ## Run locally
 
@@ -40,12 +40,12 @@ Each entry uses this shape:
 }
 ```
 
-Put cover images in `public/covers/`. A volume is drawn onto the next empty shelf slot in order. The overlay’s Read / Buy / Lectern controls stay dormant until a real volume is selected.
+Put cover images in `public/covers/`. A volume appears as a locus on the inner orbit, not a shelf object. The overlay’s Read / Buy / Lectern controls stay dormant until a real volume is selected.
 
 Affiliate or partner tracking on `buyLinks` comes next. Do not add tracking parameters until that programme is ready.
 
 ## Notes
 
-- WebGL is required for the room. Browsers without it see a quiet fallback message.
-- Narrow or low-memory devices get a reduced scene: fewer effects, no intro dolly, simpler glass.
+- WebGL is required. Browsers without it see a quiet fallback.
+- Narrow or low-memory devices get fewer particles, fewer filaments, and lighter postprocessing.
 - The brand spelling is **Daemeticum** (with *e*).

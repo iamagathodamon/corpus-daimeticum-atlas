@@ -6,21 +6,23 @@ export function Overlay() {
   const canBuy = Boolean(selected && selected.buyLinks.length > 0);
   const canLectern = Boolean(selected);
   const empty = books.length === 0;
+  const count = String(books.length).padStart(2, "0");
 
   return (
     <div className="overlay">
       <header className="masthead">
-        <p className="eyebrow">Private library</p>
+        <p className="index">{count} / ∞</p>
         <h1>Corpus Daemeticum</h1>
+        <p className="eyebrow">Private library of living texts</p>
       </header>
 
       <div className="overlay-base">
         <p className="status">
           {empty
-            ? "The shelves are empty. Awaiting the collection."
+            ? "The field is open. The collection has not yet been placed."
             : selected
               ? `${selected.title}${selected.author ? ` — ${selected.author}` : ""}`
-              : "A volume may be drawn when one is placed."}
+              : "A work may be opened when one is placed."}
         </p>
         {selected?.note ? <p className="note">{selected.note}</p> : null}
 
@@ -62,9 +64,7 @@ export function Overlay() {
             type="button"
             disabled={!canLectern}
             title={
-              canLectern
-                ? "Open on the lectern"
-                : "The lectern is empty"
+              canLectern ? "Open on the lectern" : "Nothing is open yet"
             }
             onClick={() => openOnLectern(selected)}
           >

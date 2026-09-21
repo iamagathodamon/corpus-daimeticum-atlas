@@ -1,10 +1,10 @@
 export function Fallback() {
   return (
     <main className="fallback">
-      <p className="eyebrow">Private library</p>
+      <p className="index">00 / ∞</p>
       <h1>Corpus Daemeticum</h1>
       <p className="lede">
-        The reading room needs WebGL. This browser cannot open the shelves.
+        This field is a WebGL instrument. The present browser cannot open it.
       </p>
       <p className="status">The collection has not yet been placed.</p>
     </main>
