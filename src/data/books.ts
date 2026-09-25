@@ -1,9 +1,215 @@
 import type { Book } from "../types/book";
 
 /**
- * The private collection.
+ * Damon Rolnick's twenty-five-title collection.
  *
- * Keep this array empty until a work is intentionally placed.
- * Affiliate parameters must not be added until that programme is ready.
+ * Titles, authors, slugs, and notes are taken from his catalogue.
+ * The Emerald Tablet of Hermes and The Emerald Tablets of Thoth the
+ * Atlantean stay separate works.
+ *
+ * Buy links stay empty until the affiliate programme is wired.
+ * readUrl is omitted: this hall does not host full texts yet.
+ * Every volume shares one cover path. The hall draws a locus, not a jacket.
  */
-export const books: Book[] = [];
+export const books: Book[] = [
+  {
+    slug: "divine-pymander",
+    title: "The Divine Pymander",
+    author: "Hermes Trismegistus",
+    cover: "/covers/placeholder.svg",
+    note: "Classic English Hermetica (e.g. Everard); Corpus Hermeticum lineage",
+    buyLinks: [],
+  },
+  {
+    slug: "anaesthetic-revelation",
+    title: "The Anaesthetic Revelation and the Gist of Philosophy",
+    author: "Benjamin Paul Blood",
+    cover: "/covers/placeholder.svg",
+    note: "Amsterdam, N.Y., 1874 pamphlet",
+    buyLinks: [],
+  },
+  {
+    slug: "american-cosmic",
+    title: "American Cosmic",
+    author: "D. W. Pasulka",
+    cover: "/covers/placeholder.svg",
+    note: "UFOs, religion, technology, and belief",
+    buyLinks: [],
+  },
+  {
+    slug: "emerald-tablet-hermes",
+    title: "The Emerald Tablet of Hermes",
+    author: "Attributed to Hermes Trismegistus",
+    cover: "/covers/placeholder.svg",
+    note: "Tabula Smaragdina / classical short alchemical text (distinct from Doreal)",
+    buyLinks: [],
+  },
+  {
+    slug: "emerald-tablets-thoth-atlantean",
+    title: "The Emerald Tablets of Thoth the Atlantean",
+    author: "Maurice Doreal",
+    cover: "/covers/placeholder.svg",
+    note: "Modern esoteric text; not the classical Emerald Tablet",
+    buyLinks: [],
+  },
+  {
+    slug: "upanishads",
+    title: "The Upanishads",
+    author: "Various",
+    cover: "/covers/placeholder.svg",
+    note: "Edition TBD with Damon (which translation / selection)",
+    buyLinks: [],
+  },
+  {
+    slug: "rig-veda",
+    title: "Ṛgveda",
+    author: "Various",
+    cover: "/covers/placeholder.svg",
+    note: "Edition TBD (e.g. Griffith PD vs modern scholarly)",
+    buyLinks: [],
+  },
+  {
+    slug: "on-the-incarnation",
+    title: "On the Incarnation",
+    author: "Athanasius of Alexandria",
+    cover: "/covers/placeholder.svg",
+    note: "De Incarnatione; older English translations PD",
+    buyLinks: [],
+  },
+  {
+    slug: "pistis-sophia",
+    title: "Pistis Sophia",
+    author: "Anonymous (Coptic Gnostic)",
+    cover: "/covers/placeholder.svg",
+    note: "e.g. G. R. S. Mead translation (PD)",
+    buyLinks: [],
+  },
+  {
+    slug: "hekhalot-rabbati",
+    title: "Hekhalot Rabbati",
+    author: "Anonymous (Merkavah / Hekhalot literature)",
+    cover: "/covers/placeholder.svg",
+    note: "Translation/edition TBD — rights depend on translator",
+    buyLinks: [],
+  },
+  {
+    slug: "language-of-creation",
+    title: "The Language of Creation",
+    author: "Matthieu Pageau",
+    cover: "/covers/placeholder.svg",
+    note: "Cosmic Symbolism in Genesis: a Commentary (2018)",
+    buyLinks: [],
+  },
+  {
+    slug: "bacchae",
+    title: "The Bacchae",
+    author: "Euripides",
+    cover: "/covers/placeholder.svg",
+    note: "Greek tragedy; many PD translations",
+    buyLinks: [],
+  },
+  {
+    slug: "egregores",
+    title: "Egregores",
+    author: "Mark Stavish",
+    cover: "/covers/placeholder.svg",
+    note: "The Occult Entities That Watch Over Human Destiny (Inner Traditions)",
+    buyLinks: [],
+  },
+  {
+    slug: "dmt-deities-myth-tryptamines",
+    title: "DMT: Deities, Myth & Tryptamines",
+    author: "R. N. Vooght",
+    cover: "/covers/placeholder.svg",
+    note: "Ancient Cosmological Gods & Where In The World We Find Them, Book 2",
+    buyLinks: [],
+  },
+  {
+    slug: "corpus-hermeticum",
+    title: "Corpus Hermeticum",
+    author: "Hermes Trismegistus (attributed)",
+    cover: "/covers/placeholder.svg",
+    note: "Full Greek Hermetica; related to but broader than The Divine Pymander",
+    buyLinks: [],
+  },
+  {
+    slug: "daemonologie",
+    title: "Daemonologie",
+    author: "King James VI & I",
+    cover: "/covers/placeholder.svg",
+    note: "1597 treatise on witchcraft and spirits",
+    buyLinks: [],
+  },
+  {
+    slug: "on-acquisition-holy-spirit",
+    title: "On the Acquisition of the Holy Spirit",
+    author: "St. Seraphim of Sarov",
+    cover: "/covers/placeholder.svg",
+    note: "Conversation with N. A. Motovilov; English translation rights vary",
+    buyLinks: [],
+  },
+  {
+    slug: "passport-to-magonia",
+    title: "Passport to Magonia",
+    author: "Jacques Vallée",
+    cover: "/covers/placeholder.svg",
+    note: "From Folklore to Flying Saucers",
+    buyLinks: [],
+  },
+  {
+    slug: "book-of-giants",
+    title: "The Book of Giants",
+    author: "Anonymous (Dead Sea Scrolls / Manichaean tradition)",
+    cover: "/covers/placeholder.svg",
+    note: "Fragmentary; edition/translation TBD",
+    buyLinks: [],
+  },
+  {
+    slug: "secret-teachings-of-all-ages",
+    title: "The Secret Teachings of All Ages",
+    author: "Manly P. Hall",
+    cover: "/covers/placeholder.svg",
+    note: "1928; U.S. public domain as of 2024 — confirm before hosting",
+    buyLinks: [],
+  },
+  {
+    slug: "dmt-soul-of-prophecy",
+    title: "DMT and the Soul of Prophecy",
+    author: "Rick Strassman",
+    cover: "/covers/placeholder.svg",
+    note: "Hebrew Bible and psychedelic spirituality",
+    buyLinks: [],
+  },
+  {
+    slug: "dmt-spirit-molecule",
+    title: "DMT: The Spirit Molecule",
+    author: "Rick Strassman",
+    cover: "/covers/placeholder.svg",
+    note: "Clinical research on DMT",
+    buyLinks: [],
+  },
+  {
+    slug: "cosmic-mystery-jesus-christ",
+    title: "On the Cosmic Mystery of Jesus Christ",
+    author: "St. Maximus the Confessor",
+    cover: "/covers/placeholder.svg",
+    note: "SVS Press selected writings (Blowers/Wilken) — translation copyrighted",
+    buyLinks: [],
+  },
+  {
+    slug: "alphabet-that-changed-the-world",
+    title: "The Alphabet That Changed the World",
+    author: "Stan Tenen",
+    cover: "/covers/placeholder.svg",
+    note: "Meru Foundation / geometric Hebrew",
+    buyLinks: [],
+  },
+  {
+    slug: "inner-paths-to-outer-space",
+    title: "Inner Paths to Outer Space",
+    author: "Rick Strassman, Slawek Wojtowicz, Luis Eduardo Luna, Ede Frecska",
+    cover: "/covers/placeholder.svg",
+    note: "Journeys to alien worlds through psychedelics and other spiritual technologies",
+    buyLinks: [],
+  },
+];
