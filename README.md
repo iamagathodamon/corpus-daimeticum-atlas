@@ -1,10 +1,10 @@
 # Corpus Daemeticum
 
-A navigable WebGL hall for a private library of living texts. The collection begins empty.
+A navigable WebGL hall for a private library of living texts. The hall holds Damon Rolnick’s twenty-five-title collection.
 
 You move through a vast architectural volume — threshold, atrium, light well, grand stair — rather than sitting in a room or orbiting a field. This replaces the former atlas, the rejected wooden reading room, and the rejected cosmic field.
 
-There are no sample books.
+There are no sampler stand-ins. The catalogue is the twenty-five titles Damon named.
 
 ## Run locally
 
@@ -30,7 +30,7 @@ Capture views:
 
 ## How to add a book later
 
-The collection is a single array in [`src/data/books.ts`](src/data/books.ts). It ships as `[]`. Do not invent placeholder works.
+The collection is a single array in [`src/data/books.ts`](src/data/books.ts). It holds the twenty-five titles from Damon’s catalogue. Do not add works that are not in that catalogue.
 
 Each entry uses this shape:
 
